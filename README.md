@@ -1,13 +1,17 @@
-# PAWU Official Homepage
+# PAWU Homepage Warm v1.2
 
-BGK 홈페이지의 동일한 Next.js 프로젝트 구조를 기반으로 제작한 PAWU 공식 서비스 소개 홈페이지입니다.
+기존 PAWU 홈페이지의 차갑고 기계적인 인상을 줄이고,
+반려동물과 보호자의 따뜻한 관계가 먼저 느껴지도록 전면 개편한 버전입니다.
 
-## 업로드
-ZIP 압축을 해제한 뒤 안에 보이는 `app`, `components`, `data`, `public`,
-`package.json` 등의 항목 전체를 GitHub 저장소 최상단에 업로드합니다.
+## 변경 내용
+- 네온 블루/다크 디자인에서 크림, 코랄, 민트 기반의 따뜻한 디자인으로 변경
+- 첫 화면을 강아지·고양이 중심의 반려동물 비주얼로 변경
+- 슬로건과 문구를 보호자 관점으로 전면 수정
+- 병원용/보호자용 기능을 더 친근하게 재구성
+- 기능 카드와 문의 영역 디자인 개선
+- 모바일 반응형 유지
+- 기존 GitHub/Vercel 프로젝트 구조 유지
 
-## Vercel
-- Framework Preset: Next.js
-- Root Directory: `./`
-- 별도의 환경 변수 없음
-- 권장 도메인: `pawu.bgkcogito.co.kr`
+## GitHub 업로드
+압축 해제 후 안의 `app`, `components`, `data`, `public` 폴더와
+나머지 파일 전체를 기존 `pawu-homepage` 저장소에 덮어씁니다.

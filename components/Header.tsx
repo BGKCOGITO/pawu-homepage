@@ -3,11 +3,10 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-const items = [
+const menuItems = [
   ["PAWU 소개", "#about"],
-  ["핵심 기능", "#features"],
-  ["병원·보호자", "#experience"],
-  ["운영 원칙", "#principle"],
+  ["주요 기능", "#features"],
+  ["병원과 보호자", "#together"],
   ["문의", "#contact"],
 ] as const;
 
@@ -16,19 +15,21 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const handleScroll = () => setScrolled(window.scrollY > 18);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <header className={`header ${scrolled ? "scrolled" : ""}`}>
       <a className="brand" href="#top" aria-label="PAWU 홈">
-        <Image src="/images/pawu-symbol.png" alt="" width={34} height={34} priority />
+        <span className="brand-icon">
+          <Image src="/images/pawu-symbol.png" alt="" width={34} height={34} priority />
+        </span>
         <span className="brand-copy">
           <strong>PAWU</strong>
-          <small>BY BGK</small>
+          <small>반려동물 의료 플랫폼</small>
         </span>
       </a>
 
@@ -44,7 +45,7 @@ export default function Header() {
       </button>
 
       <nav className={open ? "nav open" : "nav"}>
-        {items.map(([label, href]) => (
+        {menuItems.map(([label, href]) => (
           <a key={href} href={href} onClick={() => setOpen(false)}>
             {label}
           </a>
@@ -56,7 +57,7 @@ export default function Header() {
           rel="noreferrer"
           onClick={() => setOpen(false)}
         >
-          서비스 열기
+          PAWU 시작하기
         </a>
       </nav>
     </header>
