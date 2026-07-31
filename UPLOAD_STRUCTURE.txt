@@ -1,0 +1,20 @@
+GitHub 저장소 첫 화면은 반드시 아래와 같이 보여야 합니다.
+
+app/
+components/
+data/
+public/
+.gitignore
+eslint.config.mjs
+next-env.d.ts
+next.config.ts
+package.json
+README.md
+tsconfig.json
+
+중요:
+1. ZIP 압축을 풉니다.
+2. GitHub의 Add file > Upload files로 이동합니다.
+3. app, components, data, public 폴더는 폴더 그대로 드래그합니다.
+4. 나머지 파일도 함께 드래그합니다.
+5. Header.tsx, page.tsx, globals.css가 저장소 첫 화면에 보이면 잘못 업로드된 것입니다.
