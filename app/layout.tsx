@@ -20,9 +20,9 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "/" },
   openGraph: {
-    title: "PAWU | 함께한 모든 날이 더 건강하도록",
+    title: "PAWU | 예약부터 진료 완료까지 하나의 흐름으로",
     description:
-      "우리 아이의 진료와 건강기록을 병원과 보호자가 함께 관리하는 반려동물 의료 플랫폼",
+      "예약부터 진료 완료와 사후관리까지 병원과 보호자를 연결하는 반려동물 의료 플랫폼",
     url: "https://pawu.bgkcogito.co.kr",
     siteName: "PAWU",
     type: "website",
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "PAWU | 함께한 모든 날이 더 건강하도록",
+    title: "PAWU | 예약부터 진료 완료까지 하나의 흐름으로",
     description: "병원과 보호자를 연결하는 반려동물 의료 플랫폼",
     images: ["/twitter-image.png"],
   },

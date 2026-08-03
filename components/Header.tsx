@@ -5,9 +5,9 @@ import { useEffect, useState } from "react";
 
 const menuItems = [
   ["PAWU 소개", "#about"],
-  ["주요 기능", "#features"],
-  ["병원과 보호자", "#together"],
-  ["문의", "#contact"],
+  ["진료 흐름", "#journey"],
+  ["핵심 기능", "#features"],
+  ["무료 체험", "#trial"],
 ] as const;
 
 export default function Header() {
@@ -52,12 +52,10 @@ export default function Header() {
         ))}
         <a
           className="nav-cta"
-          href="https://pawu-web.vercel.app"
-          target="_blank"
-          rel="noreferrer"
-          onClick={() => setOpen(false)}
+          href="#trial"
+                    onClick={() => setOpen(false)}
         >
-          PAWU 시작하기
+          무료 체험 신청
         </a>
       </nav>
     </header>
