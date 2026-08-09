@@ -4,10 +4,11 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const menuItems = [
-  ["PAWU 소개", "#about"],
-  ["진료 흐름", "#journey"],
-  ["핵심 기능", "#features"],
-  ["무료 체험", "#trial"],
+  ["PAWU 소개", "/#about"],
+  ["진료 흐름", "/#journey"],
+  ["핵심 기능", "/#features"],
+  ["병원 프로그램", "/hospital-download"],
+  ["무료 체험", "/#trial"],
 ] as const;
 
 export default function Header() {
@@ -23,7 +24,7 @@ export default function Header() {
 
   return (
     <header className={`header ${scrolled ? "scrolled" : ""}`}>
-      <a className="brand" href="#top" aria-label="PAWU 홈">
+      <a className="brand" href="/" aria-label="PAWU 홈">
         <span className="brand-icon">
           <Image src="/images/pawu-symbol.png" alt="" width={34} height={34} priority />
         </span>
@@ -50,11 +51,7 @@ export default function Header() {
             {label}
           </a>
         ))}
-        <a
-          className="nav-cta"
-          href="#trial"
-                    onClick={() => setOpen(false)}
-        >
+        <a className="nav-cta" href="/#trial" onClick={() => setOpen(false)}>
           무료 체험 신청
         </a>
       </nav>
