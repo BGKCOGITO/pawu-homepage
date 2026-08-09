@@ -1,0 +1,10 @@
+{
+  "version": "0.1.6",
+  "download_page": "https://pawu.bgkcogito.co.kr/hospital-download",
+  "notes": [
+    "병원 프로그램 UX 통일",
+    "처방관리 사용성 개선",
+    "진료기록 검색 및 날짜별 조회 개선",
+    "병원 프로그램 다운로드 배포 준비"
+  ]
+}
