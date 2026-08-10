@@ -1,9 +1,25 @@
 import Link from "next/link";
 import styles from "./page.module.css";
 
-export const dynamic = "force-dynamic";
+const GITHUB_LATEST_RELEASE_API =
+  "https://api.github.com/repos/BGKCOGITO/pawu-homepage/releases/latest";
 
-const RELEASE_API = process.env.PAWU_HOSPITAL_RELEASE_API?.trim() || "https://pawu-web.vercel.app/api/public/hospital-release";
+type GitHubReleaseAsset = {
+  name: string;
+  browser_download_url: string;
+  size: number;
+  content_type?: string;
+  digest?: string | null;
+};
+
+type GitHubRelease = {
+  tag_name: string;
+  name: string | null;
+  body: string | null;
+  html_url: string;
+  published_at: string | null;
+  assets: GitHubReleaseAsset[];
+};
 
 type Release = {
   version: string;
@@ -16,12 +32,62 @@ type Release = {
   published_at: string;
 };
 
+function normalizeVersion(tag: string) {
+  return tag.trim().replace(/^v/i, "");
+}
+
+function parseReleaseNotes(body: string | null) {
+  if (!body) return [];
+
+  const notes = body
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter((line) => /^[-*•]\s+/.test(line))
+    .map((line) => line.replace(/^[-*•]\s+/, "").trim())
+    .filter(Boolean);
+
+  return Array.from(new Set(notes)).slice(0, 8);
+}
+
+function chooseInstallerAsset(assets: GitHubReleaseAsset[]) {
+  const exeAssets = assets.filter((asset) => asset.name.toLowerCase().endsWith(".exe"));
+
+  return (
+    exeAssets.find((asset) => /x64.*setup|setup.*x64/i.test(asset.name)) ||
+    exeAssets.find((asset) => /setup/i.test(asset.name)) ||
+    exeAssets[0] ||
+    null
+  );
+}
+
 async function getRelease(): Promise<Release | null> {
   try {
-    const response = await fetch(RELEASE_API, { cache: "no-store" });
+    const response = await fetch(GITHUB_LATEST_RELEASE_API, {
+      headers: {
+        Accept: "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+        "User-Agent": "PAWU-Hospital-Homepage",
+      },
+      next: { revalidate: 300 },
+    });
+
     if (!response.ok) return null;
-    const payload = (await response.json()) as { ok?: boolean; release?: Release | null };
-    return payload.ok && payload.release ? payload.release : null;
+
+    const githubRelease = (await response.json()) as GitHubRelease;
+    const installer = chooseInstallerAsset(githubRelease.assets || []);
+
+    if (!installer) return null;
+
+    return {
+      version: normalizeVersion(githubRelease.tag_name),
+      download_url: installer.browser_download_url,
+      download_page: githubRelease.html_url,
+      file_name: installer.name,
+      file_size: installer.size,
+      sha256: installer.digest?.replace(/^sha256:/i, "") || null,
+      notes: parseReleaseNotes(githubRelease.body),
+      published_at: githubRelease.published_at || "",
+    };
   } catch {
     return null;
   }
@@ -44,11 +110,13 @@ const faqs = [
 export default async function HospitalDownloadPage() {
   const release = await getRelease();
   const installerVersion = release ? `V${release.version}` : "준비 중";
-  const releaseNotes = release?.notes?.length ? release.notes : [
-    "병원 프로그램 전체 UX 및 메뉴 체계 정리",
-    "진료기록 반려동물 검색 및 날짜별 조회 개선",
-    "처방관리 환자 선택 및 처방 입력 방식 개선",
-  ];
+  const releaseNotes = release?.notes?.length
+    ? release.notes
+    : [
+        "병원 프로그램 전체 UX 및 메뉴 체계 정리",
+        "진료기록 반려동물 검색 및 날짜별 조회 개선",
+        "처방관리 환자 선택 및 처방 입력 방식 개선",
+      ];
 
   return (
     <main className={styles.page}>
