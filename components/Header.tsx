@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
+const KAKAO_CHANNEL_URL = "http://pf.kakao.com/_PxfkBX";
+
 const menuItems = [
   ["PAWU 소개", "/#about"],
   ["진료 흐름", "/#journey"],
@@ -51,6 +53,14 @@ export default function Header() {
             {label}
           </a>
         ))}
+        <a
+          href={KAKAO_CHANNEL_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => setOpen(false)}
+        >
+          고객센터
+        </a>
         <a className="nav-cta" href="/#trial" onClick={() => setOpen(false)}>
           무료 체험 신청
         </a>

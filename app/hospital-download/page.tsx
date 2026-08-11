@@ -3,6 +3,7 @@ import styles from "./page.module.css";
 
 const GITHUB_LATEST_RELEASE_API =
   "https://api.github.com/repos/BGKCOGITO/pawu-homepage/releases/latest";
+const KAKAO_CHANNEL_URL = "http://pf.kakao.com/_PxfkBX";
 
 type GitHubReleaseAsset = {
   name: string;
@@ -38,7 +39,6 @@ function normalizeVersion(tag: string) {
 
 function parseReleaseNotes(body: string | null) {
   if (!body) return [];
-
   const notes = body
     .split(/\r?\n/)
     .map((line) => line.trim())
@@ -51,7 +51,6 @@ function parseReleaseNotes(body: string | null) {
 
 function chooseInstallerAsset(assets: GitHubReleaseAsset[]) {
   const exeAssets = assets.filter((asset) => asset.name.toLowerCase().endsWith(".exe"));
-
   return (
     exeAssets.find((asset) => /x64.*setup|setup.*x64/i.test(asset.name)) ||
     exeAssets.find((asset) => /setup/i.test(asset.name)) ||
@@ -75,7 +74,6 @@ async function getRelease(): Promise<Release | null> {
 
     const githubRelease = (await response.json()) as GitHubRelease;
     const installer = chooseInstallerAsset(githubRelease.assets || []);
-
     if (!installer) return null;
 
     return {
@@ -101,7 +99,7 @@ function fileSizeLabel(value: number) {
 
 const faqs = [
   ["기존 병원 프로그램을 중단해야 하나요?", "아닙니다. PAWU는 기존 프로그램을 유지한 상태에서 병행해 체험할 수 있도록 운영하고 있습니다."],
-  ["설치가 어렵지는 않나요?", "Windows 설치파일을 내려받아 실행한 뒤 안내에 따라 설치하면 됩니다. 설치 과정에서 도움이 필요하면 BGK에 문의해 주세요."],
+  ["설치가 어렵지는 않나요?", "Windows 설치파일을 내려받아 실행한 뒤 안내에 따라 설치하면 됩니다. 설치 과정에서 도움이 필요하면 PAWU 카카오톡 고객센터로 문의해 주세요."],
   ["프로그램 업데이트는 어떻게 하나요?", "새 버전이 배포되면 PAWU Hospital 실행 시 업데이트 안내가 표시되고 이 다운로드 센터에서 최신 설치파일을 받을 수 있습니다."],
   ["무료 체험 병원도 프로그램을 받을 수 있나요?", "네. 무료 체험 신청 후 안내받은 병원은 동일한 병원 프로그램을 사용할 수 있습니다."],
   ["Windows 보안 경고가 나오면 어떻게 하나요?", "초기 배포 버전에서는 Windows SmartScreen 안내가 표시될 수 있습니다. 반드시 PAWU 공식 홈페이지에서 받은 설치파일인지 확인한 뒤 진행해 주세요."],
@@ -123,6 +121,7 @@ export default async function HospitalDownloadPage() {
       <header className={styles.topbar}>
         <Link href="/" className={styles.brand}>PAWU</Link>
         <div className={styles.topActions}>
+          <a href={KAKAO_CHANNEL_URL} target="_blank" rel="noopener noreferrer" className={styles.textLink}>고객센터</a>
           <Link href="/#trial" className={styles.textLink}>무료 체험 신청</Link>
           <Link href="/" className={styles.homeButton}>홈으로</Link>
         </div>
@@ -185,15 +184,26 @@ export default async function HospitalDownloadPage() {
       <section className={styles.section}>
         <div className={styles.sectionHeading}><p>FAQ</p><h2>설치 전 자주 묻는 질문</h2></div>
         <div className={styles.faqList}>
-          {faqs.map(([question, answer]) => <details key={question} className={styles.faq}><summary>{question}<span>+</span></summary><p>{answer}</p></details>)}
+          {faqs.map(([question, answer]) => (
+            <details key={question} className={styles.faq}>
+              <summary>{question}<span>+</span></summary>
+              <p>{answer}</p>
+            </details>
+          ))}
         </div>
       </section>
 
       <section className={styles.support}>
-        <div><p>NEED HELP?</p><h2>설치가 어려우면<br />직접 도와드리겠습니다.</h2></div>
+        <div>
+          <p>NEED HELP?</p>
+          <h2>설치가 어려우면<br />PAWU 고객센터로 문의해 주세요.</h2>
+        </div>
         <div className={styles.supportCard}>
-          <strong>BGK · PAWU</strong><p>병원 프로그램 설치 및 무료 체험 문의</p>
-          <a href="tel:01030152717">010-3015-2717</a><a href="mailto:bgkcogito@naver.com">bgkcogito@naver.com</a>
+          <strong>PAWU 고객센터</strong>
+          <p>병원 프로그램 설치 · 무료 체험 · 이용 문의</p>
+          <a href="tel:01030152717">010-3015-2717</a>
+          <a href="mailto:bgkcogito@naver.com">bgkcogito@naver.com</a>
+          <a href={KAKAO_CHANNEL_URL} target="_blank" rel="noopener noreferrer" className={styles.supportButton}>카카오톡 고객센터</a>
           <Link href="/#trial" className={styles.supportButton}>무료 체험 신청</Link>
         </div>
       </section>
