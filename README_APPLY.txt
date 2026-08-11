@@ -1,27 +1,23 @@
-PAWU 홈페이지 푸터 - 계정 삭제 링크 추가 패치
+PAWU 홈페이지 정책/고객센터 하단 링크 패치
 
-목표
-홈페이지 하단에 다음 링크를 표시합니다.
+현재 공개 저장소의 app/layout.tsx 구조를 기준으로 작성했습니다.
+
+적용 파일
+1) app/layout.tsx
+   - GitHub의 기존 app/layout.tsx를 이 파일로 교체
+
+2) APPEND_TO_GLOBALS.css
+   - 내용 전체를 GitHub app/globals.css 맨 아래에 붙여넣기
+
+배포 후 모든 페이지 하단에 다음 메뉴가 표시됩니다.
+
 개인정보처리방침 | 계정 삭제 | 고객센터
 
-1) components/PolicyFooterLinks.tsx 를 pawu-homepage/components/ 에 업로드합니다.
+연결 주소
+- 개인정보처리방침: /privacy
+- 계정 삭제: /account-deletion
+- 고객센터: http://pf.kakao.com/_PxfkBX
 
-2) 홈페이지에서 실제 Footer를 렌더링하는 파일을 열고 import를 추가합니다.
+기존 메인페이지, 무료 체험, 병원 프로그램 다운로드, GitHub Release 자동연동에는 손대지 않습니다.
 
-import PolicyFooterLinks from "@/components/PolicyFooterLinks";
-
-3) 기존 Footer 안쪽의 가장 아래에 다음 한 줄을 추가합니다.
-
-<PolicyFooterLinks />
-
-4) PATCH.css 내용을 기존 globals.css 또는 Footer용 CSS 맨 아래에 추가합니다.
-
-5) GitHub Commit 후 Vercel 자동 배포를 확인합니다.
-
-계정 삭제 목적지:
-/account-deletion
-=> https://pawu.bgkcogito.co.kr/account-deletion
-
-주의:
-- 기존 홈페이지 섹션/무료체험/다운로드/고객센터 기능은 변경하지 않습니다.
-- 개인정보처리방침의 실제 홈페이지 경로가 /policies/privacy 가 아니라면 해당 href만 기존 경로로 바꾸세요.
+기존 components/PolicyFooterLinks.tsx는 더 이상 필요하지 않지만 남아 있어도 동작에는 문제가 없습니다.
