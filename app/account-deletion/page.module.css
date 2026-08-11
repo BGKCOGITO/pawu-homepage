@@ -1,0 +1,130 @@
+.page {
+  min-height: 100vh;
+  background: #f8faf9;
+  color: #173c34;
+  padding: 0 22px 70px;
+}
+.topbar {
+  max-width: 1080px;
+  margin: 0 auto;
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.brand {
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+}
+.home {
+  font-size: 14px;
+  font-weight: 700;
+  color: #547068;
+}
+.hero {
+  max-width: 1080px;
+  margin: 58px auto 34px;
+  padding: 48px;
+  border-radius: 34px;
+  background: linear-gradient(135deg, #123d34 0%, #245f50 100%);
+  color: white;
+  box-shadow: 0 24px 70px rgba(20, 61, 52, 0.18);
+}
+.eyebrow {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .16em;
+  color: #bce7d7;
+}
+.hero h1 {
+  margin: 12px 0 0;
+  font-size: clamp(34px, 6vw, 58px);
+  line-height: 1.08;
+  letter-spacing: -0.055em;
+}
+.lead {
+  max-width: 720px;
+  margin-top: 18px;
+  color: #e1efea;
+  line-height: 1.8;
+}
+.card, .info {
+  max-width: 1080px;
+  margin: 16px auto;
+  border: 1px solid #e2e8e5;
+  background: white;
+  border-radius: 28px;
+  padding: 30px;
+}
+.card {
+  display: grid;
+  grid-template-columns: 58px 1fr;
+  gap: 18px;
+}
+.number {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  background: #e5f3ed;
+  color: #23644f;
+  font-weight: 900;
+}
+.card h2, .info h2 {
+  margin: 0;
+  font-size: 21px;
+  letter-spacing: -0.03em;
+}
+.card p, .info p {
+  margin: 10px 0 0;
+  color: #61736d;
+  line-height: 1.8;
+  font-size: 14px;
+}
+.primary, .kakao, .secondary {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 48px;
+  margin-top: 18px;
+  padding: 0 20px;
+  border-radius: 15px;
+  font-size: 14px;
+  font-weight: 800;
+}
+.primary {
+  background: #173c34;
+  color: white;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.kakao {
+  background: #fee500;
+  color: #241f14;
+}
+.secondary {
+  border: 1px solid #d9e2de;
+  color: #173c34;
+}
+.footer {
+  max-width: 1080px;
+  margin: 34px auto 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+  color: #83908b;
+  font-size: 13px;
+}
+@media (max-width: 640px) {
+  .page { padding-left: 16px; padding-right: 16px; }
+  .hero { margin-top: 28px; padding: 30px 24px; border-radius: 26px; }
+  .card { grid-template-columns: 1fr; padding: 24px; }
+  .info { padding: 24px; }
+  .primary, .kakao, .secondary { width: 100%; }
+}
