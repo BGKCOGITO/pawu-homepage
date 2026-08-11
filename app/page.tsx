@@ -457,6 +457,8 @@ export default function Home() {
         <nav className="footer-links">
           <a href={site.companyUrl} target="_blank" rel="noreferrer">BGK 공식 홈페이지</a>
           <a href="/privacy">개인정보처리방침</a>
+          <a href="/account-deletion">계정 삭제</a>
+          <a href="http://pf.kakao.com/_PxfkBX" target="_blank" rel="noreferrer">고객센터</a>
           <a href={`mailto:${site.email}`}>{site.email}</a>
         </nav>
         <p className="copyright">© {new Date().getFullYear()} BGK. All rights reserved.</p>
