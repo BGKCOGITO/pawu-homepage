@@ -3,7 +3,7 @@ import styles from "./page.module.css";
 
 const GITHUB_LATEST_RELEASE_API = "https://api.github.com/repos/BGKCOGITO/pawu-homepage/releases/latest";
 const KAKAO_CHANNEL_URL = "http://pf.kakao.com/_PxfkBX";
-const INSTALLER_PATH = "/downloads/PAWU.Hospital_0.1.7_x64-setup.exe";
+const INSTALLER_PATH = "https://xgvycw6tphohxwqa.public.blob.vercel-storage.com/PAWU%20Hospital_0.1.7_x64-setup.exe";
 const INSTALLER_FILE = "PAWU.Hospital_0.1.7_x64-setup.exe";
 
 type GitHubReleaseAsset = { name: string; browser_download_url: string; size: number; digest?: string | null };
