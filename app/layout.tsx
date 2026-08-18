@@ -4,11 +4,11 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://pawu.bgkcogito.co.kr"),
   title: {
-    default: "PAWU | 우리 아이의 건강을 연결합니다",
+    default: "PAWU | 병원과 보호자의 진료 흐름을 연결합니다",
     template: "%s | PAWU",
   },
   description:
-    "병원과 보호자를 연결해 우리 아이의 진료와 건강기록을 더 쉽고 따뜻하게 관리하는 반려동물 의료 플랫폼 PAWU.",
+    "예약부터 진료, 처방, 입원경과와 사후관리까지 병원 프로그램과 보호자 서비스를 연결하는 반려동물 의료 플랫폼 PAWU.",
   keywords: [
     "PAWU",
     "포우",
@@ -16,8 +16,7 @@ export const metadata: Metadata = {
     "동물병원 프로그램",
     "반려동물 의료 플랫폼",
     "전자차트",
-    "AI 진료보조",
-  ],
+      ],
   alternates: { canonical: "/" },
   openGraph: {
     title: "PAWU | 예약부터 진료 완료까지 하나의 흐름으로",

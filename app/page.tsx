@@ -1,126 +1,44 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { FormEvent, useState } from "react";
 import Header from "@/components/Header";
 import Reveal from "@/components/Reveal";
 import { site } from "@/data/site";
 
+const KAKAO_CHANNEL_URL = "http://pf.kakao.com/_PxfkBX";
+
+const hospitalBenefits = [
+  ["예약관리", "보호자가 입력한 반려동물·증상·희망시간을 확인하고 승인·거절·완료까지 한곳에서 관리합니다."],
+  ["진료기록", "보호자·반려동물 정보와 지난 기록을 연결해 진료 전 필요한 내용을 빠르게 확인합니다."],
+  ["처방·입원", "처방과 복약 안내, 입원 중 경과와 사진을 기록하고 보호자에게 전달합니다."],
+  ["병원 채팅", "전화가 어려운 순간에도 예약, 진료, 입원과 사후 안내를 기록이 남는 대화로 이어갑니다."],
+  ["알림", "예약 결과, 처방, 입원경과와 병원 안내를 보호자에게 놓치지 않도록 전달합니다."],
+  ["기존 시스템 병행", "현재 사용하는 병원 프로그램을 유지한 상태에서 PAWU를 함께 사용하며 부담 없이 검증할 수 있습니다."],
+];
+
+const guardianBenefits = [
+  ["병원 찾기·예약", "반려동물 정보를 반복 입력하지 않고 병원과 시간을 선택해 예약합니다."],
+  ["우리 아이 정보", "품종, 체중, 복용약, 사료, 특이사항과 생활정보를 반려동물별로 관리합니다."],
+  ["진료·처방 기록", "지난 진료와 처방 내용을 다시 확인하고 다음 진료에 필요한 정보를 이어갑니다."],
+  ["병원과 소통", "예약 전 문의, 진료 후 안내와 입원 중 아이의 경과를 병원과 확인합니다."],
+  ["생활 알림", "사료·복약·예방접종 등 필요한 일정을 잊지 않도록 관리합니다."],
+  ["한 계정으로 연결", "여러 반려동물과 병원 이용기록을 한곳에서 확인합니다."],
+];
+
 const journey = [
-  {
-    step: "01",
-    label: "예약",
-    icon: "calendar",
-    headline: "보호자가 예약하면,\n병원은 필요한 정보를 먼저 확인합니다.",
-    hospital: [
-      "날짜·시간·증상과 반려동물 정보를 한 화면에서 확인",
-      "예약 승인·거절과 사유 전달",
-      "예약 현황을 일정별로 정리",
-    ],
-    guardian: [
-      "반려동물을 선택해 간편하게 예약",
-      "처음부터 정보를 반복 입력할 필요 없음",
-      "예약 결과를 알림으로 확인",
-    ],
-  },
-  {
-    step: "02",
-    label: "내원",
-    icon: "paw",
-    headline: "진료 전에 알아야 할 내용을\n찾지 않아도 바로 볼 수 있습니다.",
-    hospital: [
-      "보호자·반려동물 기본정보 자동 연결",
-      "품종·체중·복용약·특이사항 확인",
-      "이전 진료와 처방 기록 확인",
-    ],
-    guardian: [
-      "미리 기록한 생활 정보와 특이사항 전달",
-      "예약 내용이 병원으로 그대로 연결",
-      "접수 과정의 반복 설명 감소",
-    ],
-  },
-  {
-    step: "03",
-    label: "진료",
-    icon: "medical",
-    headline: "진료 기록과 보호자 소통을\n하나의 흐름 안에서 이어갑니다.",
-    hospital: [
-      "전자차트에 진료 내용과 처방 기록",
-      "필요한 사진과 안내를 채팅으로 공유",
-      "입원 환자의 경과를 보호자에게 전달",
-    ],
-    guardian: [
-      "진료 관련 안내와 요청사항 확인",
-      "입원 중인 아이의 경과와 사진 확인",
-      "전화가 어려운 순간에도 병원과 소통",
-    ],
-  },
-  {
-    step: "04",
-    label: "진료 완료",
-    icon: "heart",
-    headline: "진료가 끝난 뒤에도\n기록과 관계는 계속 이어집니다.",
-    hospital: [
-      "진료·처방 내역을 반려동물별로 보관",
-      "진료 완료 상태와 기록을 체계적으로 관리",
-      "다음 예약과 후속 안내로 연결",
-    ],
-    guardian: [
-      "지난 진료와 처방 내용을 언제든 확인",
-      "반려동물별 건강기록을 한곳에서 관리",
-      "다음 진료 때 이어지는 정보 제공",
-    ],
-  },
+  ["01", "예약", "보호자가 반려동물과 증상을 선택해 예약하면 병원이 필요한 정보를 먼저 확인합니다."],
+  ["02", "내원", "기본정보, 특이사항과 지난 기록이 연결돼 같은 내용을 반복해서 설명하는 시간을 줄입니다."],
+  ["03", "진료·입원", "차트, 처방, 사진과 안내를 기록하고 병원과 보호자가 필요한 내용을 함께 확인합니다."],
+  ["04", "진료 후", "진료와 처방 기록이 보호자의 건강기록으로 남고 다음 진료의 정보가 됩니다."],
 ];
 
-const featureGroups = [
-  {
-    icon: "chat",
-    title: "병원·보호자 채팅",
-    text: "예약 전 문의부터 진료 후 안내까지 필요한 대화를 기록과 함께 이어갑니다.",
-  },
-  {
-    icon: "chart",
-    title: "전자차트와 처방",
-    text: "진료 내용과 처방을 반려동물별로 저장하고 필요한 기록을 빠르게 확인합니다.",
-  },
-  {
-    icon: "hospital",
-    title: "입원 경과 공유",
-    text: "입원 중인 아이의 상태와 사진을 보호자에게 전달해 불안과 반복 문의를 줄입니다.",
-  },
-  {
-    icon: "bell",
-    title: "예약·안내 알림",
-    text: "예약 결과와 병원 안내가 보호자에게 전달되어 중요한 내용을 놓치지 않도록 돕습니다.",
-  },
-  {
-    icon: "pet",
-    title: "반려동물 정보",
-    text: "품종, 체중, 복용약, 사료와 특이사항을 진료 전에 미리 확인할 수 있습니다.",
-  },
-  {
-    icon: "history",
-    title: "진료 후 기록 연결",
-    text: "보호자는 지난 진료와 처방을 확인하고 병원은 다음 진료에 필요한 정보를 이어봅니다.",
-  },
+const tryReasons = [
+  ["교체하지 않아도 됩니다", "기존 병원 프로그램을 유지한 채 병행 사용하며 필요한 부분부터 확인할 수 있습니다."],
+  ["직접 보고 판단하세요", "기능 설명보다 실제 예약·진료·소통 흐름을 사용해본 뒤 계속 사용할지 결정하세요."],
+  ["병원 의견을 먼저 반영합니다", "초기 협력 병원의 불편과 제안을 실제 개선 우선순위에 반영합니다."],
 ];
-
-function Icon({ name }: { name: string }) {
-  const icons: Record<string, string> = {
-    calendar: "▣",
-    paw: "●",
-    medical: "✚",
-    heart: "♥",
-    chat: "◌",
-    chart: "▤",
-    hospital: "⌂",
-    bell: "♢",
-    pet: "●",
-    history: "↻",
-  };
-  return <span aria-hidden="true">{icons[name] ?? "•"}</span>;
-}
 
 export default function Home() {
   const [sent, setSent] = useState(false);
@@ -133,335 +51,166 @@ export default function Home() {
     const phone = String(form.get("phone") || "");
     const email = String(form.get("email") || "");
     const note = String(form.get("note") || "");
-
-    const subject = encodeURIComponent(`[PAWU 체험 신청] ${hospital || name}`);
-    const body = encodeURIComponent(
-      `성함: ${name}\n병원명: ${hospital}\n연락처: ${phone}\n이메일: ${email}\n문의사항: ${note}`
-    );
-
+    const subject = encodeURIComponent(`[PAWU 병원 체험 신청] ${hospital || name}`);
+    const body = encodeURIComponent(`성함: ${name}\n병원명: ${hospital}\n연락처: ${phone}\n이메일: ${email}\n문의사항: ${note}`);
     setSent(true);
     window.location.href = `mailto:${site.email}?subject=${subject}&body=${body}`;
   }
 
   return (
-    <main id="top">
+    <main id="top" className="pawu2-page">
       <Header />
 
-      <section className="hospital-hero">
-        <div className="hero-glow glow-a" />
-        <div className="hero-glow glow-b" />
-        <div className="floating-paw paw-a">●</div>
-        <div className="floating-paw paw-b">●</div>
-
-        <div className="hospital-hero-copy">
-          <p className="eyebrow">PAWU FOR VETERINARY HOSPITALS</p>
-          <h1>
-            예약부터 진료 완료까지,
-            <br />
-            <span>병원의 하루를 하나로.</span>
-          </h1>
-          <p className="hero-description">
-            PAWU는 병원과 보호자가 필요한 정보를 따로 찾고 반복해서 전달하는
-            과정을 줄이고, 예약부터 진료 후 관리까지 자연스럽게 연결합니다.
-          </p>
-
-          <div className="hero-actions">
-            <a className="button button-primary" href="#journey">
-              실제 흐름 살펴보기
-            </a>
-            <a className="button button-secondary" href="#trial">
-              무료 체험 신청
-            </a>
-          </div>
-
-          <div className="hero-proof">
-            <div>
-              <strong>예약</strong>
-              <span>보호자 신청과 병원 승인</span>
-            </div>
-            <i>→</i>
-            <div>
-              <strong>진료</strong>
-              <span>차트·처방·소통 연결</span>
-            </div>
-            <i>→</i>
-            <div>
-              <strong>완료</strong>
-              <span>기록과 사후관리 유지</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="hospital-hero-art">
-          <div className="brand-orbit orbit-one" />
-          <div className="brand-orbit orbit-two" />
-          <div className="hero-pet dog">
-            <span>🐶</span>
-            <small>보호자 앱</small>
-          </div>
-          <div className="hero-pet cat">
-            <span>🐱</span>
-            <small>병원과 연결</small>
-          </div>
-          <div className="hero-logo-card">
-            <Image
-              src="/images/pawu-logo.png"
-              alt="PAWU"
-              width={270}
-              height={140}
-              priority
-            />
-            <p>반려동물 의료의 모든 순간을 연결합니다.</p>
-          </div>
-          <div className="floating-status status-reservation">
-            <b>예약 승인</b>
-            <span>보호자에게 즉시 전달</span>
-          </div>
-          <div className="floating-status status-record">
-            <b>진료기록 저장</b>
-            <span>다음 진료까지 연결</span>
-          </div>
-        </div>
-      </section>
-
-      <section className="quick-nav">
-        <a href="#about"><span>01</span><b>PAWU란?</b><small>서비스의 시작과 방향</small></a>
-        <a href="#journey"><span>02</span><b>진료 흐름</b><small>예약부터 완료까지</small></a>
-        <a href="#features"><span>03</span><b>핵심 기능</b><small>병원과 보호자의 연결</small></a>
-        <a href="#trial"><span>04</span><b>무료 체험</b><small>대표가 직접 안내</small></a>
-      </section>
-
-      <section className="section story-section" id="about">
-        <Reveal>
-          <div className="story-layout">
-            <div>
-              <p className="section-label">WHAT IS PAWU?</p>
-              <h2>
-                프로그램을 하나 더
-                <br />
-                추가하는 것이 아니라,
-                <br />
-                <em>끊어진 흐름을 연결합니다.</em>
-              </h2>
-            </div>
-            <div className="story-copy">
-              <p>
-                PAWU는 병원의 기존 프로그램을 당장 바꾸도록 요구하는 서비스가
-                아닙니다. 현재의 운영 방식을 존중하면서 병원과 보호자 사이에
-                흩어져 있던 예약, 정보, 진료기록과 소통을 연결합니다.
-              </p>
-              <p>
-                실제 수의사분들과 대화하며 현장에서 필요한 부분을 보완했고,
-                기존 시스템과 병행해 부담 없이 경험할 수 있도록 개발하고 있습니다.
-              </p>
-              <div className="story-callout">
-                <strong>“기능이 많다는 설명보다, 병원의 하루가 어떻게 달라지는지를 보여드리겠습니다.”</strong>
-              </div>
-            </div>
-          </div>
-        </Reveal>
-      </section>
-
-      <section className="journey-stage" id="journey">
-        <div className="journey-intro">
-          <Reveal>
-            <p className="section-label">ONE CONNECTED JOURNEY</p>
-            <h2>
-              예약 → 내원 → 진료 → 완료
-              <br />
-              <span>각 단계가 다음 단계의 정보가 됩니다.</span>
-            </h2>
+      <section className="pawu2-hero">
+        <div className="pawu2-hero-bg" aria-hidden="true" />
+        <div className="pawu2-shell pawu2-hero-grid">
+          <div className="pawu2-hero-copy">
+            <p className="pawu2-kicker">PAWU · VETERINARY CARE CONNECTION</p>
+            <h1>병원의 진료와<br /><span>보호자의 일상을 연결합니다.</span></h1>
             <p>
-              기능을 따로 배우는 것이 아니라, 병원이 매일 반복하는 실제 흐름 안에서
-              PAWU를 사용합니다.
+              예약 전에 받은 정보가 진료로 이어지고, 병원이 남긴 기록이 보호자의 건강관리로 이어집니다.
+              PAWU는 병원과 보호자가 같은 정보를 함께 확인하도록 만든 반려동물 의료 연결 서비스입니다.
             </p>
-          </Reveal>
-        </div>
+            <div className="pawu2-actions">
+              <a className="pawu2-btn primary" href="#trial">병원 무료 체험 신청</a>
+              <Link className="pawu2-btn light" href="/hospital-download">병원 프로그램 다운로드</Link>
+              <a className="pawu2-btn text" href={site.serviceUrl} target="_blank" rel="noreferrer">보호자 서비스 이용 →</a>
+            </div>
+            <div className="pawu2-trust-row">
+              <div><b>기존 프로그램</b><span>그대로 유지</span></div>
+              <div><b>병행 체험</b><span>부담 없이 시작</span></div>
+              <div><b>병원·보호자</b><span>한 흐름으로 연결</span></div>
+            </div>
+          </div>
 
-        <div className="journey-timeline">
-          {journey.map((item, index) => (
-            <Reveal className={`journey-panel panel-${index + 1}`} key={item.step}>
-              <div className="journey-number">{item.step}</div>
-              <div className="journey-panel-icon"><Icon name={item.icon} /></div>
-
-              <div className="journey-panel-copy">
-                <p>{item.label}</p>
-                <h3>
-                  {item.headline.split("\n").map((line) => (
-                    <span key={line}>{line}</span>
-                  ))}
-                </h3>
-
-                <div className="journey-role-grid">
-                  <div>
-                    <b>병원에서는</b>
-                    <ul>
-                      {item.hospital.map((point) => <li key={point}>{point}</li>)}
-                    </ul>
-                  </div>
-                  <div>
-                    <b>보호자는</b>
-                    <ul>
-                      {item.guardian.map((point) => <li key={point}>{point}</li>)}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              {index < journey.length - 1 && (
-                <div className="timeline-link" aria-hidden="true">
-                  <span />
-                  <i>↓</i>
-                </div>
-              )}
-            </Reveal>
-          ))}
+          <div className="pawu2-hero-preview" aria-label="PAWU 서비스 화면 예시">
+            <div className="pawu2-preview-brand">
+              <Image src="/images/pawu-logo.png" alt="PAWU" width={190} height={150} priority />
+              <span>오늘의 진료 흐름</span>
+            </div>
+            <div className="pawu2-preview-stats">
+              <article><small>예약 대기</small><strong>6</strong><span>건</span></article>
+              <article><small>오늘 진료</small><strong>18</strong><span>건</span></article>
+              <article><small>입원 환자</small><strong>3</strong><span>마리</span></article>
+            </div>
+            <div className="pawu2-preview-list">
+              <div><i>09:30</i><b>몽이 · 피부 상담</b><span>승인완료</span></div>
+              <div><i>10:20</i><b>라떼 · 예방접종</b><span>진료대기</span></div>
+              <div><i>11:10</i><b>콩이 · 재진</b><span>정보확인</span></div>
+            </div>
+            <div className="pawu2-phone-card">
+              <div className="pawu2-phone-top">PAWU <span>우리 아이</span></div>
+              <div className="pawu2-pet-card"><b>몽이</b><small>말티즈 · 4.2kg</small></div>
+              <p>예약이 승인되었습니다.</p>
+              <p>처방 안내가 도착했습니다.</p>
+              <p>입원 경과 사진 2장</p>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="section connected-result">
+      <section className="pawu2-proof-bar">
+        <div className="pawu2-shell">
+          <span>예약</span><i>→</i><span>내원 정보</span><i>→</i><span>진료·처방</span><i>→</i><span>입원·채팅</span><i>→</i><span>건강기록</span>
+        </div>
+      </section>
+
+      <section id="about" className="pawu2-section pawu2-shell">
         <Reveal>
-          <p className="section-label">THE RESULT</p>
-          <h2>
-            같은 정보를 다시 묻지 않고,
-            <br />
-            다음 업무가 자연스럽게 이어집니다.
-          </h2>
+          <div className="pawu2-heading split">
+            <div><p className="pawu2-kicker">WHY PAWU</p><h2>프로그램을 하나 더 늘리는 것이 아니라,<br />흩어진 정보를 이어줍니다.</h2></div>
+            <p>병원은 진료에 필요한 정보를 더 빨리 확인하고, 보호자는 우리 아이의 기록을 잃지 않습니다. PAWU의 시작은 거창한 전환이 아니라 기존 업무에 필요한 연결을 하나씩 더하는 것입니다.</p>
+          </div>
+          <div className="pawu2-reason-grid">
+            {tryReasons.map(([title, text], index) => <article key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{text}</p></article>)}
+          </div>
         </Reveal>
-        <div className="result-flow">
-          <Reveal className="result-card">
-            <span>01</span><b>보호자가 입력한 정보</b><p>예약과 반려동물 정보가 병원으로 연결됩니다.</p>
-          </Reveal>
-          <div className="result-arrow">→</div>
-          <Reveal className="result-card">
-            <span>02</span><b>병원이 남긴 기록</b><p>진료와 처방이 보호자의 건강기록으로 이어집니다.</p>
-          </Reveal>
-          <div className="result-arrow">→</div>
-          <Reveal className="result-card">
-            <span>03</span><b>다음 진료의 정보</b><p>지난 기록이 다시 병원의 판단을 돕는 정보가 됩니다.</p>
-          </Reveal>
-        </div>
       </section>
 
-      <section className="feature-showcase" id="features">
-        <div className="section">
+      <section id="journey" className="pawu2-section pawu2-journey-section">
+        <div className="pawu2-shell">
           <Reveal>
-            <div className="feature-heading">
-              <div>
-                <p className="section-label">CORE FEATURES</p>
-                <h2>하나의 흐름을 완성하는<br />PAWU의 핵심 기능</h2>
-              </div>
-              <p>
-                기능을 많이 보여주기보다 병원과 보호자가 실제로 자주 사용하는
-                연결을 중심으로 구성했습니다.
-              </p>
-            </div>
+            <div className="pawu2-heading centered"><p className="pawu2-kicker">ONE CONNECTED JOURNEY</p><h2>예약부터 진료 후 관리까지<br />정보가 끊기지 않습니다.</h2><p>각 단계에서 새로 입력하고 다시 묻는 대신, 앞 단계의 정보가 다음 업무로 자연스럽게 연결됩니다.</p></div>
           </Reveal>
-
-          <div className="feature-showcase-grid">
-            {featureGroups.map((feature, index) => (
-              <Reveal className={`showcase-card showcase-${index + 1}`} key={feature.title}>
-                <div className="showcase-icon"><Icon name={feature.icon} /></div>
-                <span>0{index + 1}</span>
-                <h3>{feature.title}</h3>
-                <p>{feature.text}</p>
-              </Reveal>
-            ))}
+          <div className="pawu2-journey-grid">
+            {journey.map(([number, title, text]) => <Reveal className="pawu2-journey-card" key={number}><span>{number}</span><h3>{title}</h3><p>{text}</p></Reveal>)}
           </div>
         </div>
       </section>
 
-      <section className="partner-message">
-        <div className="partner-light light-one" />
-        <div className="partner-light light-two" />
+      <section id="hospital" className="pawu2-section pawu2-shell">
         <Reveal>
-          <div className="partner-inner">
-            <div className="promise-icon">♥</div>
-            <p className="section-label">BUILT WITH VETERINARIANS</p>
-            <blockquote>
-              PAWU는 아직 완성된 프로그램이 아닙니다.
-              <br />
-              <span>원장님의 의견으로 계속 발전하는 서비스입니다.</span>
-            </blockquote>
-            <p>
-              잠시 함께 사용해 보시고 좋았던 점보다 부족했던 점을 더 많이
-              말씀해 주세요. 처음 함께해 주시는 병원의 의견을 다음 개선에
-              가장 먼저 담겠습니다.
-            </p>
+          <div className="pawu2-heading split">
+            <div><p className="pawu2-kicker">FOR HOSPITALS</p><h2>병원은 진료에 집중하고,<br />반복 확인은 PAWU가 줄입니다.</h2></div>
+            <p>병원 프로그램에서 예약·차트·처방·입원·채팅을 확인하고, 보호자에게 필요한 안내를 같은 기록 안에서 전달합니다.</p>
+          </div>
+          <div className="pawu2-feature-grid hospital">
+            {hospitalBenefits.map(([title, text], index) => <article key={title}><span>H{String(index + 1).padStart(2, "0")}</span><h3>{title}</h3><p>{text}</p></article>)}
+          </div>
+          <div className="pawu2-download-banner">
+            <div><small>PAWU HOSPITAL · WINDOWS</small><h3>병원 프로그램을 먼저 확인해 보세요.</h3><p>최신 설치파일, 설치방법과 업데이트 내용을 다운로드 센터에서 확인할 수 있습니다.</p></div>
+            <Link className="pawu2-btn dark" href="/hospital-download">다운로드 센터</Link>
           </div>
         </Reveal>
       </section>
 
-      <section className="section trial-section" id="trial">
-        <Reveal>
-          <div className="trial-layout">
-            <div className="trial-copy">
-              <p className="section-label">FREE EXPERIENCE</p>
-              <h2>
-                직접 보시면
-                <br />
-                더 빠르게 이해됩니다.
-              </h2>
-              <p>
-                체험을 희망하시는 병원에는 BGK 대표 장수빈이 직접 연락드리고,
-                필요한 경우 병원에 방문해 설치와 사용 방법을 안내하겠습니다.
-                기존 프로그램을 유지한 채 부담 없이 병행해 보실 수 있습니다.
-              </p>
-
-              <div className="trial-benefits">
-                <div><b>01</b><span>기존 프로그램과 병행 사용</span></div>
-                <div><b>02</b><span>대표가 직접 설치·안내</span></div>
-                <div><b>03</b><span>현장 의견을 개발에 반영</span></div>
-              </div>
-
-              <div className="contact-mini">
-                <strong>BGK 대표 장수빈</strong>
-                <a href="tel:01030152717">010-3015-2717</a>
-                <a href="mailto:bgkcogito@naver.com">bgkcogito@naver.com</a>
-              </div>
+      <section id="guardian" className="pawu2-section pawu2-guardian-section">
+        <div className="pawu2-shell">
+          <Reveal>
+            <div className="pawu2-heading split">
+              <div><p className="pawu2-kicker">FOR GUARDIANS</p><h2>보호자는 우리 아이의 정보를<br />필요한 순간에 다시 확인합니다.</h2></div>
+              <p>병원 예약부터 진료·처방 기록, 채팅과 생활 알림까지 반려동물별로 연결해 관리합니다.</p>
             </div>
+            <div className="pawu2-feature-grid guardian">
+              {guardianBenefits.map(([title, text], index) => <article key={title}><span>G{String(index + 1).padStart(2, "0")}</span><h3>{title}</h3><p>{text}</p></article>)}
+            </div>
+            <div className="pawu2-guardian-cta"><div><strong>보호자 서비스</strong><p>반려동물 등록, 병원 검색과 예약 기능을 확인하세요.</p></div><a className="pawu2-btn primary" href={site.serviceUrl} target="_blank" rel="noreferrer">PAWU 이용하기</a></div>
+          </Reveal>
+        </div>
+      </section>
 
-            <form className="trial-form" onSubmit={submitTrial}>
-              <div className="form-title">
-                <span>PAWU</span>
-                <h3>무료 체험 신청</h3>
-                <p>남겨주신 내용을 확인한 뒤 직접 연락드리겠습니다.</p>
-              </div>
-              <label>성함<input name="name" required placeholder="성함을 입력해 주세요" /></label>
-              <label>병원명<input name="hospital" required placeholder="병원명을 입력해 주세요" /></label>
+      <section className="pawu2-section pawu2-shell">
+        <Reveal>
+          <div className="pawu2-heading centered"><p className="pawu2-kicker">BEFORE & AFTER</p><h2>PAWU를 사용하면<br />이런 흐름으로 달라집니다.</h2></div>
+          <div className="pawu2-compare-grid">
+            <article className="before"><span>BEFORE</span><h3>정보가 여러 곳에 흩어짐</h3><ul><li>예약 내용은 전화와 메모</li><li>보호자 정보는 다시 확인</li><li>입원 경과는 반복 문의</li><li>지난 처방은 따로 검색</li></ul></article>
+            <div className="pawu2-compare-arrow">→</div>
+            <article className="after"><span>WITH PAWU</span><h3>하나의 진료 흐름으로 연결</h3><ul><li>예약정보가 병원으로 연결</li><li>반려동물 정보 자동 확인</li><li>사진과 경과를 기록으로 공유</li><li>진료·처방 기록을 다시 확인</li></ul></article>
+          </div>
+        </Reveal>
+      </section>
+
+      <section id="trial" className="pawu2-trial-section">
+        <div className="pawu2-shell pawu2-trial-grid">
+          <Reveal className="pawu2-trial-copy">
+            <p className="pawu2-kicker light">FREE HOSPITAL EXPERIENCE</p>
+            <h2>당장 바꾸지 않아도 됩니다.<br />한번 함께 써보세요.</h2>
+            <p>기존 시스템을 유지한 채 PAWU를 병행해 보고, 병원에 실제로 도움이 되는지 확인하세요. 체험을 희망하는 병원에는 사용 흐름과 설치방법을 안내합니다.</p>
+            <div className="pawu2-trial-points"><span>기존 프로그램 유지</span><span>병행 사용</span><span>현장 의견 반영</span></div>
+            <div className="pawu2-contact"><b>BGK · PAWU</b><a href="tel:01030152717">010-3015-2717</a><a href={`mailto:${site.email}`}>{site.email}</a><a href={KAKAO_CHANNEL_URL} target="_blank" rel="noreferrer">카카오톡 고객센터</a></div>
+          </Reveal>
+
+          <Reveal className="pawu2-form-wrap">
+            <form className="pawu2-trial-form" onSubmit={submitTrial}>
+              <div><small>PAWU HOSPITAL</small><h3>무료 체험 신청</h3><p>신청 내용을 확인한 뒤 체험 방법을 안내드립니다.</p></div>
+              <label>성함<input name="name" required placeholder="담당자 성함" /></label>
+              <label>병원명<input name="hospital" required placeholder="동물병원명" /></label>
               <label>연락처<input name="phone" required inputMode="tel" placeholder="연락 가능한 번호" /></label>
               <label>이메일<input name="email" required type="email" placeholder="이메일 주소" /></label>
-              <label>문의사항<textarea name="note" rows={4} placeholder="궁금한 점이나 방문 희망 내용을 남겨 주세요" /></label>
-              <button className="button button-primary form-button" type="submit">
-                무료 체험 신청하기
-              </button>
-              <small>
-                신청 버튼을 누르면 작성 내용이 이메일로 연결됩니다.
-                {sent ? " 이메일 앱에서 전송을 완료해 주세요." : ""}
-              </small>
+              <label>문의사항<textarea name="note" rows={4} placeholder="현재 불편한 점이나 방문 희망 내용을 남겨 주세요" /></label>
+              <button className="pawu2-btn primary full" type="submit">무료 체험 신청하기</button>
+              <small className="pawu2-form-note">신청 버튼을 누르면 이메일 작성 화면이 열립니다.{sent ? " 작성 내용을 확인한 뒤 전송해 주세요." : ""}</small>
             </form>
-          </div>
-        </Reveal>
+          </Reveal>
+        </div>
       </section>
 
-      <footer>
-        <div className="footer-brand">
-          <span className="brand-icon small">
-            <Image src="/images/pawu-symbol.png" alt="" width={32} height={32} />
-          </span>
-          <div>
-            <strong>PAWU</strong>
-            <span>우리 아이의 건강을 연결합니다.</span>
-          </div>
+      <footer className="pawu2-footer">
+        <div className="pawu2-shell pawu2-footer-grid">
+          <div className="pawu2-footer-brand"><Image src="/images/pawu-symbol.png" alt="" width={38} height={38} /><div><strong>PAWU</strong><span>우리 아이의 건강을 연결합니다.</span></div></div>
+          <nav><a href={site.companyUrl} target="_blank" rel="noreferrer">BGK</a><Link href="/hospital-download">병원 다운로드</Link><Link href="/privacy">개인정보처리방침</Link><Link href="/account-deletion">계정 삭제</Link><a href={KAKAO_CHANNEL_URL} target="_blank" rel="noreferrer">고객센터</a></nav>
+          <p>© {new Date().getFullYear()} BGK. PAWU.</p>
         </div>
-        <nav className="footer-links">
-          <a href={site.companyUrl} target="_blank" rel="noreferrer">BGK 공식 홈페이지</a>
-          <a href="/privacy">개인정보처리방침</a>
-          <a href="/account-deletion">계정 삭제</a>
-          <a href="http://pf.kakao.com/_PxfkBX" target="_blank" rel="noreferrer">고객센터</a>
-          <a href={`mailto:${site.email}`}>{site.email}</a>
-        </nav>
-        <p className="copyright">© {new Date().getFullYear()} BGK. All rights reserved.</p>
       </footer>
     </main>
   );

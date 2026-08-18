@@ -1,31 +1,22 @@
 import Link from "next/link";
+import styles from "./page.module.css";
 
-export const metadata = {
-  title: "PAWU Hospital 설치 도움말",
-  description: "PAWU Hospital Windows 설치 문제 해결 및 고객지원 안내",
-};
+export const metadata = { title: "PAWU Hospital 설치 도움말", description: "PAWU Hospital Windows 설치 문제 해결 및 고객지원 안내" };
+
+const issues = [
+  ["설치를 취소했어요", "설치파일을 다시 실행하고 설치가 완료될 때까지 창을 닫지 마세요."],
+  ["이미 설치되었다고 나와요", "기존 PAWU Hospital을 실행하거나 Windows 앱 설정에서 기존 버전을 제거한 뒤 다시 설치하세요."],
+  ["다른 설치가 진행 중이라고 나와요", "진행 중인 다른 설치를 끝낸 뒤 Windows를 재시작하고 다시 시도하세요."],
+  ["Windows 보안 경고가 나와요", "PAWU 공식 홈페이지에서 내려받은 파일인지 확인한 뒤 추가정보 또는 실행을 선택해 진행할 수 있습니다."],
+  ["설치 후 로그인이 안 돼요", "무료 체험 또는 병원 계정이 정상 발급되었는지 PAWU 고객센터에 확인해 주세요."],
+  ["프로그램이 열리지 않아요", "Windows를 재시작하고 다시 실행해 보세요. 계속되면 오류 화면을 고객센터로 보내 주세요."],
+];
 
 export default function HospitalInstallHelpPage() {
-  return (
-    <main style={{maxWidth:920,margin:"0 auto",padding:"48px 24px",fontFamily:"Arial, sans-serif",lineHeight:1.7,color:"#173c35"}}>
-      <p style={{fontWeight:800,letterSpacing:2,fontSize:12}}>PAWU HOSPITAL · WINDOWS</p>
-      <h1 style={{fontSize:40,margin:"8px 0 12px"}}>설치 문제 해결</h1>
-      <p>Microsoft Store 또는 PAWU 공식 다운로드 센터를 통해 PAWU Hospital을 설치할 때 문제가 발생한 경우 아래 내용을 확인해 주세요.</p>
-      <hr style={{margin:"32px 0",border:0,borderTop:"1px solid #ddd"}} />
-      <h2>일반적인 설치 문제</h2>
-      <ul>
-        <li><b>사용자가 설치를 취소함:</b> 설치를 다시 시작하고 완료될 때까지 설치 창을 종료하지 마세요.</li>
-        <li><b>애플리케이션이 이미 설치됨:</b> 기존 PAWU Hospital을 실행하거나 Windows 앱 설정에서 기존 버전을 제거한 뒤 다시 설치하세요.</li>
-        <li><b>다른 설치가 진행 중:</b> 진행 중인 다른 설치를 완료한 뒤 다시 시도하세요.</li>
-        <li><b>디스크 공간 부족:</b> 시스템 드라이브의 여유 공간을 확보한 뒤 다시 설치하세요.</li>
-        <li><b>재부팅 필요:</b> Windows를 재시작한 뒤 다시 설치하세요.</li>
-        <li><b>네트워크 오류:</b> 인터넷 연결을 확인한 뒤 다시 시도하세요.</li>
-        <li><b>보안 정책으로 설치 차단:</b> 병원 PC의 관리자 또는 보안 담당자에게 문의하세요.</li>
-      </ul>
-      <h2 style={{marginTop:32}}>지원</h2>
-      <p>문제가 계속되면 아래 고객지원으로 문의해 주세요.</p>
-      <p><b>이메일:</b> <a href="mailto:contact@bgkcogito.co.kr">contact@bgkcogito.co.kr</a><br/><b>전화:</b> <a href="tel:+821030152717">010-3015-2717</a></p>
-      <p style={{marginTop:32}}><Link href="/hospital-download">PAWU Hospital 다운로드 센터로 돌아가기</Link></p>
-    </main>
-  );
+  return <main className={styles.page}>
+    <header><Link href="/hospital-download">← 다운로드 센터</Link><Link href="/">PAWU 홈</Link></header>
+    <section className={styles.hero}><p>PAWU HOSPITAL · SUPPORT</p><h1>설치 문제 해결</h1><span>설치 중 문제가 생겼다면 아래 항목부터 확인해 주세요.</span></section>
+    <section className={styles.grid}>{issues.map(([title,text],index)=><article key={title}><span>{String(index+1).padStart(2,"0")}</span><h2>{title}</h2><p>{text}</p></article>)}</section>
+    <section className={styles.support}><div><h2>문제가 계속되나요?</h2><p>오류 화면과 사용 중인 Windows 버전을 함께 알려주시면 확인에 도움이 됩니다.</p></div><div><a href="http://pf.kakao.com/_PxfkBX" target="_blank" rel="noreferrer">카카오톡 고객센터</a><a href="mailto:bgkcogito@naver.com">bgkcogito@naver.com</a><a href="tel:01030152717">010-3015-2717</a></div></section>
+  </main>;
 }
