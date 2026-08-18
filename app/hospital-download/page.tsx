@@ -3,8 +3,8 @@ import styles from "./page.module.css";
 
 const GITHUB_LATEST_RELEASE_API = "https://api.github.com/repos/BGKCOGITO/pawu-homepage/releases/latest";
 const KAKAO_CHANNEL_URL = "http://pf.kakao.com/_PxfkBX";
-const INSTALLER_PATH = "/downloads/PAWU.Hospital_0.1.6_x64-setup.exe";
-const INSTALLER_FILE = "PAWU.Hospital_0.1.6_x64-setup.exe";
+const INSTALLER_PATH = "/downloads/PAWU.Hospital_0.1.7_x64-setup.exe";
+const INSTALLER_FILE = "PAWU.Hospital_0.1.7_x64-setup.exe";
 
 type GitHubReleaseAsset = { name: string; browser_download_url: string; size: number; digest?: string | null };
 type GitHubRelease = { tag_name: string; body: string | null; published_at: string | null; assets: GitHubReleaseAsset[] };
@@ -25,7 +25,7 @@ async function getRelease(): Promise<Release | null> {
     const release = (await response.json()) as GitHubRelease;
     const installer = release.assets?.find((asset) => asset.name.toLowerCase().endsWith(".exe"));
     return {
-      version: release.tag_name.trim().replace(/^v/i, "") || "0.1.6",
+      version: "0.1.7",
       notes: parseReleaseNotes(release.body),
       published_at: release.published_at || "",
       sha256: installer?.digest?.replace(/^sha256:/i, "") || null,
@@ -45,7 +45,7 @@ const faqs = [
 
 export default async function HospitalDownloadPage() {
   const release = await getRelease();
-  const version = release?.version || "0.1.6";
+  const version = "0.1.7";
   const notes = release?.notes?.length ? release.notes : [
     "병원 프로그램 메뉴와 화면 사용성 개선",
     "진료기록 환자 검색 및 날짜별 조회 보완",
@@ -77,7 +77,7 @@ export default async function HospitalDownloadPage() {
           <h2>PAWU Hospital</h2>
           <p>동물병원용 Windows 프로그램</p>
           <a className={styles.downloadButton} href={INSTALLER_PATH} download={INSTALLER_FILE}>Windows 설치파일 다운로드</a>
-          <div className={styles.fileInfo}><span>{INSTALLER_FILE}</span><span>약 3.32 MB</span></div>
+          <div className={styles.fileInfo}><span>{INSTALLER_FILE}</span><span>약 209 MB</span></div>
           <small>다운로드 버튼은 기존 공식 설치파일 경로와 그대로 연결되어 있습니다.</small>
         </div>
       </section>
