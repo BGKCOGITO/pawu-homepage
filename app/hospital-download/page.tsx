@@ -144,12 +144,8 @@ export default async function HospitalDownloadPage() {
           </div>
           <h2>PAWU Hospital</h2>
           <p>Windows 병원 프로그램 설치파일</p>
-          {release?.download_url ? (
-            <a className={styles.downloadButton} href={release.download_url}>Windows 다운로드</a>
-          ) : (
-            <div className={`${styles.downloadButton} ${styles.disabled}`}>설치파일 준비 중</div>
-          )}
-          {release && <small className={styles.safeNote}>{release.file_name} · {fileSizeLabel(release.file_size)}</small>}
+          <a className={styles.downloadButton} href="/downloads/PAWU.Hospital_0.1.6_x64-setup.exe" download>Windows 다운로드</a>
+          <small className={styles.safeNote}>PAWU.Hospital_0.1.6_x64-setup.exe · 3.32 MB</small>
           <small className={styles.safeNote}>공식 주소 pawu.bgkcogito.co.kr에서만 설치파일을 받아 주세요.</small>
         </div>
       </section>
