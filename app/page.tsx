@@ -74,7 +74,11 @@ export default function Home() {
             <div className="pawu2-actions">
               <a className="pawu2-btn primary" href="#trial">병원 무료 체험 신청</a>
               <Link className="pawu2-btn light" href="/hospital-download">병원 프로그램 다운로드</Link>
-              <a className="pawu2-btn text" href={site.serviceUrl} target="_blank" rel="noreferrer">보호자 서비스 이용 →</a>
+              {site.guardianPlayUrl ? (
+                <a className="pawu2-btn text" href={site.guardianPlayUrl} target="_blank" rel="noreferrer">보호자 앱 설치 →</a>
+              ) : (
+                <span className="pawu2-btn text pawu2-btn-disabled" aria-disabled="true">보호자 앱 설치 · 출시 준비중</span>
+              )}
             </div>
             <div className="pawu2-trust-row">
               <div><b>기존 프로그램</b><span>그대로 유지</span></div>
@@ -164,7 +168,11 @@ export default function Home() {
             <div className="pawu2-feature-grid guardian">
               {guardianBenefits.map(([title, text], index) => <article key={title}><span>G{String(index + 1).padStart(2, "0")}</span><h3>{title}</h3><p>{text}</p></article>)}
             </div>
-            <div className="pawu2-guardian-cta"><div><strong>보호자 서비스</strong><p>반려동물 등록, 병원 검색과 예약 기능을 확인하세요.</p></div><a className="pawu2-btn primary" href={site.serviceUrl} target="_blank" rel="noreferrer">PAWU 이용하기</a></div>
+            <div className="pawu2-guardian-cta"><div><strong>PAWU 보호자 앱</strong><p>Google Play 정식 출시 후 보호자 앱을 바로 설치할 수 있습니다.</p></div>{site.guardianPlayUrl ? (
+              <a className="pawu2-btn primary" href={site.guardianPlayUrl} target="_blank" rel="noreferrer">Google Play에서 설치</a>
+            ) : (
+              <span className="pawu2-btn primary pawu2-btn-disabled primary-disabled" aria-disabled="true">Google Play 출시 준비중</span>
+            )}</div>
           </Reveal>
         </div>
       </section>

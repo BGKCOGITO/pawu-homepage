@@ -17,3 +17,10 @@ npm install
 npm run build
 vercel --prod
 ```
+
+
+## 2026-08-20 보호자 앱 설치 CTA 준비
+- 보호자 서비스 웹 이동 링크 제거
+- 메인 CTA를 `보호자 앱 설치 · 출시 준비중` 상태로 변경
+- 보호자 섹션 CTA를 `Google Play 출시 준비중` 상태로 변경
+- Google Play 정식 출시 후 버튼 URL만 연결하면 되도록 준비
