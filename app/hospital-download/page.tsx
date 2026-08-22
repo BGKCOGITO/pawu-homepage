@@ -3,8 +3,7 @@ import styles from "./page.module.css";
 
 const GITHUB_LATEST_RELEASE_API = "https://api.github.com/repos/BGKCOGITO/pawu-homepage/releases/latest";
 const KAKAO_CHANNEL_URL = "http://pf.kakao.com/_PxfkBX";
-const INSTALLER_PATH = "https://xgvycw6tphohxwqa.public.blob.vercel-storage.com/PAWU%20Hospital_0.1.7_x64-setup.exe";
-const INSTALLER_FILE = "PAWU.Hospital_0.1.7_x64-setup.exe";
+const MICROSOFT_STORE_URL = "https://apps.microsoft.com/store/detail/XP89QMZ7DN8J77";
 
 type GitHubReleaseAsset = { name: string; browser_download_url: string; size: number; digest?: string | null };
 type GitHubRelease = { tag_name: string; body: string | null; published_at: string | null; assets: GitHubReleaseAsset[] };
@@ -37,9 +36,9 @@ async function getRelease(): Promise<Release | null> {
 
 const faqs = [
   ["기존 병원 프로그램을 중단해야 하나요?", "아닙니다. 기존 프로그램을 유지한 상태에서 PAWU를 병행해 체험할 수 있습니다."],
-  ["설치파일은 어디에서 받아야 하나요?", "보안을 위해 PAWU 공식 홈페이지 pawu.bgkcogito.co.kr의 다운로드 센터에서만 받아 주세요."],
+  ["병원 프로그램은 어디에서 설치하나요?", "PAWU Hospital은 Microsoft Store를 통해 안전하게 설치할 수 있습니다."],
   ["설치가 어려우면 도움을 받을 수 있나요?", "카카오톡 고객센터를 통해 설치 과정과 병원 계정 이용 방법을 안내받을 수 있습니다."],
-  ["업데이트는 어떻게 받나요?", "새 버전이 배포되면 병원 프로그램에서 안내하고, 이 페이지에서 최신 설치파일을 다시 받을 수 있습니다."],
+  ["업데이트는 어떻게 받나요?", "Microsoft Store를 통해 PAWU Hospital의 최신 버전을 설치하고 업데이트할 수 있습니다."],
   ["무료 체험도 같은 프로그램을 사용하나요?", "네. 체험 병원도 실제 운영 프로그램을 사용하고 병원의 의견을 제품 개선에 반영합니다."],
 ];
 
@@ -68,7 +67,7 @@ export default async function HospitalDownloadPage() {
         <div className={styles.heroCopy}>
           <p>PAWU HOSPITAL · WINDOWS</p>
           <h1>병원 프로그램을<br /><span>안전하게 내려받으세요.</span></h1>
-          <p className={styles.lead}>최신 설치파일, 설치 순서, 업데이트 내용과 자주 묻는 질문을 한곳에서 확인할 수 있습니다.</p>
+          <p className={styles.lead}>Microsoft Store 설치 방법, 업데이트 내용과 자주 묻는 질문을 한곳에서 확인할 수 있습니다.</p>
           <div className={styles.heroPoints}><span>Windows 10/11</span><span>64-bit</span><span>기존 시스템과 병행</span><span>무료 체험 가능</span></div>
         </div>
 
@@ -76,14 +75,14 @@ export default async function HospitalDownloadPage() {
           <div className={styles.cardTop}><div><small>CURRENT VERSION</small><strong>V{version}</strong></div><span>⊞</span></div>
           <h2>PAWU Hospital</h2>
           <p>동물병원용 Windows 프로그램</p>
-          <a className={styles.downloadButton} href={INSTALLER_PATH} download={INSTALLER_FILE}>Windows 설치파일 다운로드</a>
-          <div className={styles.fileInfo}><span>{INSTALLER_FILE}</span><span>약 209 MB</span></div>
-          <small>다운로드 버튼은 기존 공식 설치파일 경로와 그대로 연결되어 있습니다.</small>
+          <a className={styles.downloadButton} href={MICROSOFT_STORE_URL} target="_blank" rel="noreferrer">Microsoft Store에서 설치</a>
+          <div className={styles.fileInfo}><span>Microsoft Store 공식 배포</span><span>Windows 10/11</span></div>
+          <small>PAWU Hospital은 Microsoft Store를 통해 안전하게 설치 및 업데이트할 수 있습니다.</small>
         </div>
       </section>
 
       <section className={styles.trustBar}>
-        <article><span>01</span><b>공식 설치파일</b><p>PAWU 공식 도메인에서 직접 제공</p></article>
+        <article><span>01</span><b>공식 Store 설치</b><p>Microsoft Store를 통한 안전한 설치</p></article>
         <article><span>02</span><b>기존 프로그램 병행</b><p>당장 교체하지 않고 먼저 체험</p></article>
         <article><span>03</span><b>설치 지원</b><p>필요하면 고객센터에서 안내</p></article>
       </section>
@@ -93,7 +92,7 @@ export default async function HospitalDownloadPage() {
         <div className={styles.checkGrid}>
           <article><b>운영체제</b><p>Windows 10 또는 Windows 11, 64-bit PC에서 사용합니다.</p></article>
           <article><b>병원 계정</b><p>체험 또는 병원 계정 안내를 받은 뒤 로그인할 수 있습니다.</p></article>
-          <article><b>공식 주소</b><p>pawu.bgkcogito.co.kr에서 받은 파일인지 확인해 주세요.</p></article>
+          <article><b>공식 배포</b><p>Microsoft Store의 PAWU Hospital 페이지에서 설치해 주세요.</p></article>
           <article><b>기존 업무</b><p>기존 병원 프로그램을 유지한 상태에서 병행할 수 있습니다.</p></article>
         </div>
       </section>
@@ -101,8 +100,8 @@ export default async function HospitalDownloadPage() {
       <section className={`${styles.section} ${styles.installSection}`}>
         <div className={styles.heading}><p>INSTALL GUIDE</p><h2>설치는 세 단계면 끝납니다.</h2></div>
         <div className={styles.steps}>
-          <article><span>01</span><h3>다운로드</h3><p>상단 버튼으로 공식 설치파일을 내려받습니다.</p></article>
-          <article><span>02</span><h3>설치</h3><p>파일을 실행하고 화면 안내에 따라 설치를 완료합니다.</p></article>
+          <article><span>01</span><h3>Store 열기</h3><p>상단 버튼으로 Microsoft Store의 PAWU Hospital 페이지를 엽니다.</p></article>
+          <article><span>02</span><h3>설치</h3><p>Microsoft Store에서 설치 버튼을 눌러 설치를 완료합니다.</p></article>
           <article><span>03</span><h3>로그인</h3><p>PAWU Hospital을 실행하고 안내받은 병원 계정으로 로그인합니다.</p></article>
         </div>
         <Link className={styles.helpLink} href="/hospital-install-help">설치 문제 해결 안내 보기 →</Link>
@@ -134,7 +133,7 @@ export default async function HospitalDownloadPage() {
 
       <section className={styles.support}>
         <div><p>NEED HELP?</p><h2>설치부터 체험까지<br />PAWU가 안내합니다.</h2><span>프로그램을 먼저 받아보고 병원 환경에 맞는지 확인해 보세요.</span></div>
-        <div><a href={INSTALLER_PATH} download={INSTALLER_FILE}>설치파일 다시 받기</a><a href={KAKAO_CHANNEL_URL} target="_blank" rel="noreferrer">카카오톡 고객센터</a><Link href="/#trial">무료 체험 신청</Link></div>
+        <div><a href={MICROSOFT_STORE_URL} target="_blank" rel="noreferrer">Microsoft Store에서 설치</a><a href={KAKAO_CHANNEL_URL} target="_blank" rel="noreferrer">카카오톡 고객센터</a><Link href="/#trial">무료 체험 신청</Link></div>
       </section>
 
       <footer className={styles.footer}><Link href="/">PAWU</Link><span>© {new Date().getFullYear()} BGK. All rights reserved.</span></footer>
